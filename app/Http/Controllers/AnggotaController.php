@@ -46,7 +46,7 @@ class AnggotaController extends Controller
                 'email' => $request->email,
             ]);
 
-            return redirect()->route('anggota.index')->with('success','Anggota berhasil diregistrasi!');
+            return redirect('/dashboard/anggota')->with('success','Anggota berhasil diregistrasi!');
 
     }
 
