@@ -34,8 +34,8 @@ class AnggotaController extends Controller
             $request->validate([
                 'nama_lengkap' => 'required|string|max:255',
                 'alamat' => 'required|string',
-                'telepon' => 'required|integer',
-                'email' => 'required|string|email|unique:anggota,email',
+                'telepon' => 'required',
+                'email' => 'required|string|email',
             ]);
 
             // Membuat dan menyimpan data anggota ke dalam database

@@ -227,30 +227,43 @@
       </div>
       <div class="modal-body">
         <div class="p-4">
-          <form>
-            <div class="input-group input-group-outline mb-2">
+          <form method="post" action="{{ route('anggota.store') }}">
+            @csrf
+            <div class="input-group input-group-outline @error('nama_lengkap') is-invalid @enderror mb-2">
               <label class="form-label">Nama Lengkap</label>
-              <input type="text" class="form-control">
+              <input type="text" name="nama_lengkap" class="form-control">
             </div>
-            <div class="input-group input-group-outline mb-2">
+            @error('nama_lengkap')
+            {{$message}}
+            @enderror
+            <div class="input-group input-group-outline @error('alamat') is-invalid @enderror mb-2">
               <label class="form-label">Alamat</label>
-              <input type="text" class="form-control">
+              <input type="text" name="alamat" class="form-control">
             </div>
-            <div class="input-group input-group-outline mb-2">
+            @error('alamat')
+            {{$message}}
+            @enderror
+            <div class="input-group input-group-outline @error('telepon') is-invalid @enderror mb-2">
               <label class="form-label">Telepon</label>
-              <input type="text" class="form-control">
+              <input type="number" name="telepon" class="form-control">
             </div>
-            <div class="input-group input-group-outline mb-2">
+            @error('telepon')
+            {{$message}}
+            @enderror
+            <div class="input-group input-group-outline @error('email') is-invalid @enderror mb-2">
               <label class="form-label">Email</label>
-              <input type="text" class="form-control">
+              <input type="text" name="email" class="form-control">
             </div>
-          </form>
+            @error('email')
+            {{$message}}
+            @enderror
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn bg-gradient-info">Save changes</button>
+        <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn bg-gradient-info">Simpan</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
