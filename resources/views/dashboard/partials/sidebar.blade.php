@@ -31,7 +31,6 @@
                     </a>
                 </li>
 
-
                 <li class="nav-item">
                     <a class="nav-link text-white {{ Request::is('dashboard/anggota') ? 'active' : '' }} " href="/dashboard/anggota">
 
@@ -47,6 +46,20 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/dashboard/anggota">
+
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                           {{-- icon --}}
+                           
+                           <span class="material-symbols-outlined">
+                            library_books
+                            </span>
+                        </div>
+
+                        <span class="nav-link-text ms-1">Buku</span>                    
+                    </a>
+                </li>
 
             </ul>
         </div>

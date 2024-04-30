@@ -5,6 +5,7 @@ Anggota
 
 @section('konten')
 
+
 <div class="container">
     <div class="container-fluid py-4">
         <div class="row">
@@ -121,7 +122,9 @@ Anggota
                           
                               @else
                               <div class="container d-flex justify-content-center">
-                                <p class="text-dark text-bold">Data tidak ditemukan!</p>
+                                <h4 class="text-dark text-bold">Data tidak ditemukan! <span class="material-symbols-outlined">
+                                  sentiment_dissatisfied
+                                  </span></h4>
                               </div>
                               @endif
                           
