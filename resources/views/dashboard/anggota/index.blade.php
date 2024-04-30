@@ -102,6 +102,9 @@ Anggota
                                               class="text-secondary text-xs font-weight-bold">{{$anggota->created_at->format('d/m/Y')}}</span>
                                       </td>
                                       <td class="align-middle">
+                                        <button class="badge bg-gradient-success" style="border: 0ch"
+                                              data-bs-toggle="modal"
+                                              data-bs-target="#kartuModal{{$anggota->id}}">Kartu</button>
                                           <button class="badge bg-gradient-warning" style="border: 0ch"
                                               data-bs-toggle="modal"
                                               data-bs-target="#editModal{{$anggota->id}}">Edit</button>
