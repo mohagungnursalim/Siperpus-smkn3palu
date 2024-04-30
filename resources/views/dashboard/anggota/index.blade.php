@@ -10,11 +10,7 @@ Anggota
         <div class="row">
             <div class="col-12">
                 <div class="card my-4">
-                    <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-secondary shadow-secondary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3 text-center">Daftar Anggota</h6>
-                        </div>
-                    </div>
+                    
                     <div class="card-body px-0 pb-2">
                         <div class="table-responsive p-0">
 
@@ -24,6 +20,22 @@ Anggota
                                     Tambah Anggota
                                 </button>
                             </div>
+                            
+                            <form action="{{ route('anggota.index') }}" method="GET">
+                            <div class="container">
+                              <div class="row justify-content-end">
+                                  <div class="col-lg-4">
+                                      <div class="input-group input-group-outline my-3">
+
+                                              <input type="text" name="search" placeholder="Cari Anggota.." class="form-control">
+                                              <button type="submit">Search</button>
+
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          </form>
+                          
                             @if (session('success'))
                             <div id="alertContainer" class="alert alert-success alert-dismissible text-white fade show" role="alert">
                                 <span class="alert-icon align-middle">
@@ -38,68 +50,82 @@ Anggota
                             </div>
                             @endif
 
+                       @if ($anggotas->count())                         
                             <table class="table align-items-center mb-0">
-                                <thead>
-                                    <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Nama Lengkap</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Kelas</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Jurusan</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            Alamat</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Telepon</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Terdaftar</th>
-                                        <th class="text-secondary opacity-7"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($anggotas as $anggota)
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1 text-center">
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{$anggota->nama_lengkap}}</h6>
-                                                    <p class="text-xs text-secondary mb-0"> {{$anggota->email}} </p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="badge badge-sm bg-gradient-secondary">{{$anggota->kelas}}</span>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{$anggota->jurusan}}</p>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">{{$anggota->alamat}}</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <span
-                                                class="badge badge-sm bg-gradient-secondary">{{$anggota->telepon}}</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span
-                                                class="text-secondary text-xs font-weight-bold">{{$anggota->created_at->format('d/m/Y')}}</span>
-                                        </td>
-                                        <td class="align-middle">
-                                            <button class="badge bg-gradient-warning" style="border: 0ch"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#editModal{{$anggota->id}}">Edit</button>
-                                            <button class="badge bg-gradient-danger" style="border: 0ch"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#deleteModal{{$anggota->id}}">Delete</button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                              <thead>
+                                  <tr>
+                                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                          Nama Lengkap</th>
+                                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                          Kelas</th>
+                                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                          Jurusan</th>
+                                      <th
+                                          class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                          Alamat</th>
+                                      <th
+                                          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                          Telepon</th>
+                                      <th
+                                          class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                          Terdaftar</th>
+                                      <th class="text-secondary opacity-7"></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach ($anggotas as $anggota)
 
-                                </tbody>
-                            </table>
+                                  <tr>
+                                      <td>
+                                          <div class="d-flex px-2 py-1 text-center">
+                                              <div class="d-flex flex-column justify-content-center">
+                                                  <h6 class="mb-0 text-sm">{{$anggota->nama_lengkap}}</h6>
+                                                  <p class="text-xs text-secondary mb-0"> {{$anggota->email}} </p>
+                                              </div>
+                                          </div>
+                                      </td>
+                                      <td>
+                                          <span class="badge badge-sm bg-gradient-secondary">{{$anggota->kelas}}</span>
+                                      </td>
+                                      <td>
+                                          <p class="text-xs font-weight-bold mb-0">{{$anggota->jurusan}}</p>
+                                      </td>
+                                      <td>
+                                          <p class="text-xs font-weight-bold mb-0">{{$anggota->alamat}}</p>
+                                      </td>
+                                      <td class="align-middle text-center text-sm">
+                                          <span
+                                              class="badge badge-sm bg-gradient-secondary">{{$anggota->telepon}}</span>
+                                      </td>
+                                      <td class="align-middle text-center">
+                                          <span
+                                              class="text-secondary text-xs font-weight-bold">{{$anggota->created_at->format('d/m/Y')}}</span>
+                                      </td>
+                                      <td class="align-middle">
+                                          <button class="badge bg-gradient-warning" style="border: 0ch"
+                                              data-bs-toggle="modal"
+                                              data-bs-target="#editModal{{$anggota->id}}">Edit</button>
+                                          <button class="badge bg-gradient-danger" style="border: 0ch"
+                                              data-bs-toggle="modal"
+                                              data-bs-target="#deleteModal{{$anggota->id}}">Delete</button>
+                                      </td>
+
+                                  </tr>
+                                
+                                  @endforeach
+                              </tbody>
+                          </table>
+                          
+                              @else
+                              <div class="container d-flex justify-content-center">
+                                <p class="text-dark text-bold">Data tidak ditemukan!</p>
+                              </div>
+                              @endif
+                          
+                            
+                            <div class="d-flex justify-content-center">
+                              {{ $anggotas->links() }}
+                           </div>
                         </div>
                     </div>
                 </div>
