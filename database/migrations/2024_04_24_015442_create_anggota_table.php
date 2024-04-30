@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('anggota', function (Blueprint $table) {
             $table->id();
             $table->string('nama_lengkap');
+            $table->string('kelas');
+            $table->string('jurusan');
             $table->string('alamat');
-            $table->integer('telepon');
-            $table->string('email');
+            $table->string('telepon');
+            $table->string('email')->unique();
             $table->timestamps();
         });
     }

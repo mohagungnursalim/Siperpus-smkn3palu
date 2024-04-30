@@ -10,4 +10,8 @@ class Anggota extends Model
     use HasFactory;
     protected $table = 'anggota';
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'created_at' => 'datetime:d-m-Y',
+    ];
 }
