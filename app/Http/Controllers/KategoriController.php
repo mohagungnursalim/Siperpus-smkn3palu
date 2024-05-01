@@ -67,11 +67,8 @@ class KategoriController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, kategori $kategori, $id)
+    public function update(Request $request,kategori $kategori)
     {
-        // mencari kategori berdasarkan id
-        $kategori = Kategori::findOrFail($id);
-
           // Validasi input yang diterima dari form
           $request->validate([
             'nama_kategori' => 'required|string|max:25',
@@ -89,11 +86,9 @@ class KategoriController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(kategori $kategori,$id)
+    public function destroy(Kategori $kategori)
     {
-        $kategori = Kategori::findOrFail($id);
-
-        $kategori->delete();
+        $kategori->delete($kategori);
 
         return redirect('/dashboard/kategori')->with('success', 'Kategori berhasil dihapus!');
     }
