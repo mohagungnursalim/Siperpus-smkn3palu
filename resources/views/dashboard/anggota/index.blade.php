@@ -77,7 +77,7 @@ Anggota
                                   @foreach ($anggotas as $anggota)
 
                                   <tr>
-                                      <td>
+                                      <td class="text-wrap">
                                           <div class="d-flex px-2 py-1 text-center">
                                               <div class="d-flex flex-column justify-content-center">
                                                   <h6 class="mb-0 text-sm">{{$anggota->nama_lengkap}}</h6>
@@ -85,13 +85,13 @@ Anggota
                                               </div>
                                           </div>
                                       </td>
-                                      <td>
+                                      <td class="text-wrap">
                                           <span class="badge badge-sm bg-gradient-secondary">{{$anggota->kelas}}</span>
                                       </td>
-                                      <td>
+                                      <td class="text-wrap">
                                           <p class="text-xs font-weight-bold mb-0">{{$anggota->jurusan}}</p>
                                       </td>
-                                      <td>
+                                      <td class="text-wrap">
                                           <p class="text-xs font-weight-bold mb-0">{{$anggota->alamat}}</p>
                                       </td>
                                       <td class="align-middle text-center text-sm">
