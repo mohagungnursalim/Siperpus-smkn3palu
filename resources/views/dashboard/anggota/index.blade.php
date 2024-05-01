@@ -85,7 +85,7 @@ Anggota
                                               </div>
                                           </div>
                                       </td>
-                                      <td class="text-wrap">
+                                      <td class="text-wrap text-sm align-middle text-center">
                                           <span class="badge badge-sm bg-gradient-secondary">{{$anggota->kelas}}</span>
                                       </td>
                                       <td class="text-wrap">
