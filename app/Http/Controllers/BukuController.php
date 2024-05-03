@@ -20,7 +20,7 @@ class BukuController extends Controller
             $bukus->with('kategori')->where('judul_buku', 'like' , '%' . request('search') . '%' );
         }
 
-        $bukus = $bukus->cursorPaginate(2)->WithQueryString();
+        $bukus = $bukus->cursorPaginate(10)->WithQueryString();
 
         // dd($bukus);
         return view('dashboard.buku.index',compact('bukus','kategories'));
