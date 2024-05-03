@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnggotaController;
+use App\Http\Controllers\BukuController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,8 @@ Route::get('/dashboard', function () {
 Route::resource('/dashboard/anggota', AnggotaController::class)->middleware('auth');
 
 Route::resource('/dashboard/kategori', KategoriController::class)->middleware('auth');
+
+Route::resource('/dashboard/buku', BukuController::class)->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

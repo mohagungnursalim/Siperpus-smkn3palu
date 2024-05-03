@@ -14,4 +14,9 @@ class kategori extends Model
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
     ];
+
+    public function buku()
+    {
+        return $this->belongsToMany(Buku::class, 'buku_kategori', 'kategori_id', 'buku_id');
+    }
 }
