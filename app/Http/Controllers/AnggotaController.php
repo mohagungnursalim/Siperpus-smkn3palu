@@ -12,13 +12,14 @@ class AnggotaController extends Controller
      */
     public function index(Request $request)
     {
-        $anggotas = Anggota::oldest()->paginate(10)->WithQueryString();
+        $anggotas = Anggota::oldest();
        
 
         if (request('search')) {
-            $anggotas = Anggota::where('nama_lengkap', 'like', '%' . request('search') . '%')->oldest()->paginate(10)->WithQueryString();
+            $anggotas = Anggota::where('nama_lengkap', 'like', '%' . request('search') . '%')->oldest();
         } 
 
+        $anggotas = $anggotas->cursorPaginate(10)->WithQueryString();
         return view('dashboard.anggota.index',compact('anggotas'));
     }
 
