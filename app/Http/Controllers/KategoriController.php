@@ -12,11 +12,14 @@ class KategoriController extends Controller
      */
     public function index(Request $request)
     {
-        $kategories = Kategori::oldest()->paginate(10)->WithQueryString();
+        $kategories = Kategori::oldest();
 
         if (request('search')) {
-            $kategories = Kategori::where('nama_kategori', 'like' , '%' . request('search') . '%' )->oldest()->paginate(10)->WithQueryString();
+            $kategories = Kategori::where('nama_kategori', 'like' , '%' . request('search') . '%' );
         }
+
+        $kategories = $kategories->cursorPaginate(10)->WithQueryString();
+
 
         return view('dashboard.kategori.index',compact('kategories'));
     }

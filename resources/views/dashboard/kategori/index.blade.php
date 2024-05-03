@@ -101,7 +101,7 @@ Kategori
                               @endif
                           
                             
-                            <div class="d-flex justify-content-center">
+                            <div class="d-flex justify-content-center mb-3 mt-4">
                               {{ $kategories->links() }}
                            </div>
                         </div>
