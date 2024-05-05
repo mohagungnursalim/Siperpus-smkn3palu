@@ -118,7 +118,7 @@
                             account_circle
                         </span>
                     </div>
-                    <span class="nav-link-text ms-1">Profile</span>
+                    <span class="nav-link-text ms-1">Profile Saya</span>
                 </a>
             </li>
 
