@@ -101,18 +101,34 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link text-white {{Request::is('dashboard/user') ? 'active' : ''}}" 
+                href="/dashboard/user">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <span class="material-symbols-outlined">
+                            group_add
+                        </span>
+                    </div>
+                    <span class="nav-link-text ms-1">Manajemen Akun </span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link text-white " href="../pages/profile.html">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">person</i>
+                        <span class="material-symbols-outlined">
+                            account_circle
+                        </span>
                     </div>
-                    <span class="nav-link-text ms-1">Profile</span>
+                    <span class="nav-link-text ms-1">Profile </span>
                 </a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link text-white" data-bs-toggle="modal" data-bs-target="#logoutModal">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">logout</i>
+                        <span class="material-symbols-outlined">
+                            move_item
+                        </span>
                     </div>
                     <span class="nav-link-text ms-1">LogOut</span>
                 </a>
