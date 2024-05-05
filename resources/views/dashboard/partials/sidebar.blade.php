@@ -113,13 +113,13 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white " href="../pages/profile.html">
+                <a class="nav-link text-white {{Request::is('dashboard/profile') ? : 'active' : ''}}" href="/dashboard/profile">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <span class="material-symbols-outlined">
                             account_circle
                         </span>
                     </div>
-                    <span class="nav-link-text ms-1">Profile </span>
+                    <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
 
