@@ -113,7 +113,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white {{Request::is('dashboard/profile') ? : 'active' : ''}}" href="/dashboard/profile">
+                <a class="nav-link text-white {{Request::is('dashboard/profile') ?  'active' : ''}}" href="/dashboard/profile">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <span class="material-symbols-outlined">
                             account_circle

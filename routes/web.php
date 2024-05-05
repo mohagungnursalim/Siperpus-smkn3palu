@@ -35,7 +35,7 @@ Route::resource('/dashboard/buku', BukuController::class)->middleware('auth');
 Route::resource('/dashboard/user', UserController::class)->middleware('auth');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/dashboard/profile', [ProfileController::class, 'index']);
     Route::patch('/dashboard/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/dashboard/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

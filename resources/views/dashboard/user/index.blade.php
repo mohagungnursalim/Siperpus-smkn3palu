@@ -78,7 +78,7 @@ Kelola User
             
               {{-- Alert Sukses --}}
               @if (session('success'))
-              <div id="successalert" class="alert alert-success alert-dismissible text-white fade show" role="alert">
+              <div id="alertContainer" class="alert alert-success alert-dismissible text-white fade show" role="alert">
                   <span class="alert-icon align-middle">
                       <span class="material-icons text-md">
                           thumb_up_off_alt
@@ -234,15 +234,14 @@ Kelola User
 @endsection
 
 
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 {{-- Menghilangkan alert --}}
 <script>
     $(document).ready(function() {
         // Mengatur timeout untuk menghilangkan alert dalam 2 detik
         setTimeout(function() {
-            $('#successalert').fadeOut('slow');
+            $('#alertContainer').fadeOut('slow');
         }, 1200);
     });
   </script>
