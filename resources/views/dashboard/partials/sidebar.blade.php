@@ -99,6 +99,7 @@
                 </h6>
             </li>
 
+            @can('is_admin')
             <li class="nav-item">
                 <a class="nav-link text-white {{Request::is('dashboard/user') ? 'active' : ''}}" 
                 href="/dashboard/user">
@@ -110,6 +111,8 @@
                     <span class="nav-link-text ms-1">Manajemen Akun </span>
                 </a>
             </li>
+            @endcan
+           
 
             <li class="nav-item">
                 <a class="nav-link text-white {{Request::is('dashboard/profile') ?  'active' : ''}}" href="/dashboard/profile">

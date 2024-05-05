@@ -32,7 +32,7 @@ Route::resource('/dashboard/kategori', KategoriController::class)->middleware('a
 
 Route::resource('/dashboard/buku', BukuController::class)->middleware('auth');
 
-Route::resource('/dashboard/user', UserController::class)->middleware('auth');
+Route::resource('/dashboard/user', UserController::class)->middleware(['auth','is_admin']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/profile', [ProfileController::class, 'index']);
