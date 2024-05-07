@@ -290,15 +290,15 @@ aria-hidden="true">
 
                     <label class="form-label">Kategori Buku</label>
                     <div class="input-group input-group-outline @error('judul_buku') is-invalid @enderror mb-1">
-                          <select id="" name="kategori[]" style="width: 100%;" multiple class="form-control categoriesedit">
-                            @foreach($buku->kategori as $kategori)
-                                {{-- <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option> --}}
-                                <option value="{{ $kategori->id }}" selected>{{ $kategori->nama_kategori }}</option>
-                                @foreach($kategories as $kategori)
-                                    <option value="{{ $kategori->id }}" {{ in_array($kategori->id, old('kategori', [])) ? 'selected' : '' }}>
-                                        {{ $kategori->nama_kategori }}
-                                    </option>
-                                @endforeach
+                        <select id="" name="kategori[]" style="width: 100%;" multiple class="form-control categoriesedit">
+                            @foreach($kategories as $availableKategori)
+                                {{-- Cek apakah kategori saat ini sudah terpilih --}}
+                                @php
+                                    $isSelected = in_array($availableKategori->id, $buku->kategori->pluck('id')->toArray());
+                                @endphp
+                                <option value="{{ $availableKategori->id }}" {{ $isSelected ? 'selected' : '' }}>
+                                    {{ $availableKategori->nama_kategori }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

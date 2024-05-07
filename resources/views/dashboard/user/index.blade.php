@@ -162,7 +162,7 @@ Kelola User
 </div>
 
 @foreach ($users as $user )
-<!-- Modal Edit-->
+<!-- Modal Delete-->
 <div class="modal fade" id="editModal{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -180,11 +180,8 @@ Kelola User
                 enctype="multipart/form-data">
                 @csrf
                 @method('delete')
-    
-          
            <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-danger">Hapus</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
            </div>
             </form>
         </div>
