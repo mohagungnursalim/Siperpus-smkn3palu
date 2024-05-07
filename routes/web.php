@@ -27,15 +27,16 @@ Route::get('/dashboard', function () {
     return view('dashboard.dashboard.index');
 })->middleware(['auth', 'verified', 'RedirectIfAdmin'])->name('dashboard');
 
-Route::resource('/dashboard/anggota', AnggotaController::class)->middleware('auth');
+Route::resource('/dashboard/anggota', AnggotaController::class)->middleware(['auth','RedirectIfNotLibrarian']);
 
-Route::resource('/dashboard/kategori', KategoriController::class)->middleware('auth');
+Route::resource('/dashboard/kategori', KategoriController::class)->middleware(['auth','RedirectIfNotLibrarian']);
 
-Route::resource('/dashboard/buku', BukuController::class)->middleware('auth');
+Route::resource('/dashboard/buku', BukuController::class)->middleware(['auth','RedirectIfNotLibrarian']);
 
+Route::resource('/dashboard/peminjaman', PeminjamanController::class)->middleware(['auth','RedirectIfNotLibrarian']);
+
+// Only Admin
 Route::resource('/dashboard/user', UserController::class)->middleware(['auth','is_admin']);
-
-Route::resource('/dashboard/peminjaman', PeminjamanController::class)->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard/profile', [ProfileController::class, 'index']);
