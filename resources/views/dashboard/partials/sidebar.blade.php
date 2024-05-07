@@ -32,7 +32,7 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-            
+
             <li class="nav-item">
                 <a class="nav-link text-white {{ Request::is('dashboard/peminjaman') ? 'active' : '' }}" href="/dashboard/peminjaman">
 
@@ -112,7 +112,7 @@
                             group_add
                         </span>
                     </div>
-                    <span class="nav-link-text ms-1">Manajemen Akun </span>
+                    <span class="nav-link-text ms-1">Kelola Pustakawan </span>
                 </a>
             </li>
             @endcan
