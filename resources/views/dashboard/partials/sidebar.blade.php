@@ -112,7 +112,7 @@
                             group_add
                         </span>
                     </div>
-                    <span class="nav-link-text ms-1">Kelola Pustakawan </span>
+                    <span class="nav-link-text ms-1">Kelola Akun </span>
                 </a>
             </li>
             @endcan
