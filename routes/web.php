@@ -25,7 +25,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard.dashboard.index');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'RedirectIfAdmin'])->name('dashboard');
 
 Route::resource('/dashboard/anggota', AnggotaController::class)->middleware('auth');
 

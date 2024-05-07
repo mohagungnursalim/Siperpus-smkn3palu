@@ -16,6 +16,9 @@
 
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
+         
+            
+            @if (Auth::user()->is_admin == false)
             <li class="nav-item">
                 <a class="nav-link text-white {{ Request::is('dashboard') ? 'active' : '' }}" href="/dashboard">
 
@@ -29,7 +32,7 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-
+            
             <li class="nav-item">
                 <a class="nav-link text-white {{ Request::is('dashboard/peminjaman') ? 'active' : '' }}" href="/dashboard/peminjaman">
 
@@ -92,12 +95,13 @@
                     <span class="nav-link-text ms-1">Kategori</span>
                 </a>
             </li>
-
+            @endif
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">
                     ----------------Akun-------------------
                 </h6>
             </li>
+            
 
             @can('is_admin')
             <li class="nav-item">
