@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use App\Models\Buku;
+use App\Models\kategori;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -15,6 +17,31 @@ class DashboardController extends Controller
         $total_anggota = Anggota::count();
         $buku_dipinjam = Peminjaman::where('status', 'Dipinjam')->count();
         $buku_dikembalikan = Peminjaman::where('status', 'Dikembalikan')->count();
-        return view('dashboard.dashboard.index',compact('total_buku','total_anggota', 'buku_dipinjam', 'buku_dikembalikan'));
+
+        // Ambil data jumlah peminjaman untuk setiap buku
+$top_books = DB::table('peminjaman_buku')
+->select('buku_id', DB::raw('count(*) as total'))
+->groupBy('buku_id')
+->orderByDesc('total')
+->limit(5)
+->get();
+
+// Format data untuk grafik
+$data = [['Buku', 'Jumlah Peminjaman', ['role' => 'style']]];
+foreach ($top_books as $book) {
+// Ambil judul buku berdasarkan buku_id
+$judul_buku = \App\Models\Buku::findOrFail($book->buku_id)->judul_buku;
+
+// Generate kode warna acak
+$color = '#' . substr(md5(rand()), 0, 6);
+
+$data[] = [$judul_buku, $book->total, 'color: ' . $color];
+}
+
+$chart_data_json = json_encode($data);
+        
+
+// dd($chart_data_json);
+        return view('dashboard.dashboard.index',compact('total_buku','total_anggota', 'buku_dipinjam', 'buku_dikembalikan', 'chart_data_json'));
     }
 }
