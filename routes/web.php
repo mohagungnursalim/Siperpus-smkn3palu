@@ -28,7 +28,7 @@ Route::get('/', function () {
 //     return view('dashboard.dashboard.index');
 // })->middleware(['auth', 'verified', 'RedirectIfAdmin'])->name('dashboard');
 
-Route::resource('/dashboard', DashboardController::class)->middleware(['auth','RedirectIfNAdmin']);
+Route::resource('/dashboard', DashboardController::class)->middleware(['auth','RedirectIfAdmin']);
 
 Route::resource('/dashboard/anggota', AnggotaController::class)->middleware(['auth','RedirectIfNotLibrarian']);
 
