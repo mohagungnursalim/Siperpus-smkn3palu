@@ -21,14 +21,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect('/dashboard');
+    return redirect()->route('login');
 })->middleware('auth');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard.dashboard.index');
 // })->middleware(['auth', 'verified', 'RedirectIfAdmin'])->name('dashboard');
 
-Route::resource('/dashboard', DashboardController::class)->middleware(['auth','RedirectIfAdmin']);
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth','RedirectIfAdmin']);
 
 Route::resource('/dashboard/anggota', AnggotaController::class)->middleware(['auth','RedirectIfNotLibrarian']);
 
