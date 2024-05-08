@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnggotaController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProfileController;
@@ -23,9 +24,11 @@ Route::get('/', function () {
     return redirect('/dashboard');
 })->middleware('auth');
 
-Route::get('/dashboard', function () {
-    return view('dashboard.dashboard.index');
-})->middleware(['auth', 'verified', 'RedirectIfAdmin'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard.dashboard.index');
+// })->middleware(['auth', 'verified', 'RedirectIfAdmin'])->name('dashboard');
+
+Route::resource('/dashboard', DashboardController::class)->middleware(['auth','RedirectIfNAdmin']);
 
 Route::resource('/dashboard/anggota', AnggotaController::class)->middleware(['auth','RedirectIfNotLibrarian']);
 
