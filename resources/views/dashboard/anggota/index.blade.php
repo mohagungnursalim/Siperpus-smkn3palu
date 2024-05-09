@@ -103,9 +103,7 @@ Anggota
                                               class="text-secondary text-xs font-weight-bold">{{$anggota->created_at->format('d/m/Y')}}</span>
                                       </td>
                                       <td class="align-middle">
-                                        <button class="badge bg-gradient-success" style="border: 0ch"
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#kartuModal{{$anggota->id}}">Kartu</button>
+                                        <a href="{{ route('anggota.cetak-kartu', $anggota->id) }}" class="badge bg-gradient-success text-decoration-none text-white" style="border: 0ch">Kartu</a>
                                           <button class="badge bg-gradient-warning" style="border: 0ch"
                                               data-bs-toggle="modal"
                                               data-bs-target="#editModal{{$anggota->id}}">Edit</button>

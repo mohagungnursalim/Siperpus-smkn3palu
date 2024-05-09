@@ -31,6 +31,7 @@ Route::get('/', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth','RedirectIfAdmin']);
 
 Route::resource('/dashboard/anggota', AnggotaController::class)->middleware(['auth','RedirectIfNotLibrarian']);
+Route::get('/dashboard/anggota/{id}/cetak-kartu', [AnggotaController::class, 'cetakKartu'])->name('anggota.cetak-kartu');
 
 Route::resource('/dashboard/kategori', KategoriController::class)->middleware(['auth','RedirectIfNotLibrarian']);
 

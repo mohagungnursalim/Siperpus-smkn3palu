@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use Illuminate\Http\Request;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 class AnggotaController extends Controller
 {
@@ -125,5 +127,34 @@ class AnggotaController extends Controller
 
         return redirect('/dashboard/anggota')->with('success', 'Anggota berhasil dihapus!');
 
+    }
+
+    public function cetakKartu($id)
+    {
+        // Temukan anggota berdasarkan ID
+        $anggota = Anggota::findOrFail($id);
+
+        // Konversi tampilan kartu anggota ke dalam bentuk HTML
+        $html = view('dashboard.anggota.kartu', compact('anggota'))->render();
+
+        // Konfigurasi Dompdf
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        // Buat instance Dompdf
+        $dompdf = new Dompdf($options);
+
+        // Muat HTML ke Dompdf
+        $dompdf->loadHtml($html);
+
+        // Atur ukuran dan orientasi halaman
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render PDF
+        $dompdf->render();
+
+        // Tampilkan PDF dalam browser atau unduh
+        return $dompdf->stream('kartu_anggota_' . $anggota->nama_lengkap . '.pdf');
     }
 }
