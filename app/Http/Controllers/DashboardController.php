@@ -18,30 +18,28 @@ class DashboardController extends Controller
         $buku_dipinjam = Peminjaman::where('status', 'Dipinjam')->count();
         $buku_dikembalikan = Peminjaman::where('status', 'Dikembalikan')->count();
 
-        // Ambil data jumlah peminjaman untuk setiap buku
-$top_books = DB::table('peminjaman_buku')
-->select('buku_id', DB::raw('count(*) as total'))
-->groupBy('buku_id')
-->orderByDesc('total')
-->limit(5)
-->get();
+      // Ambil data jumlah peminjaman untuk setiap buku
+        $top_books = DB::table('peminjaman_buku')
+        ->select('buku_id', DB::raw('count(*) as total'))
+        ->groupBy('buku_id')
+        ->orderByDesc('total')
+        ->limit(5)
+        ->get();
 
-// Format data untuk grafik
-$data = [['Buku', 'Jumlah Peminjaman', ['role' => 'style']]];
-foreach ($top_books as $book) {
-// Ambil judul buku berdasarkan buku_id
-$judul_buku = \App\Models\Buku::findOrFail($book->buku_id)->judul_buku;
+        // Format data untuk grafik
+        $data = [['Buku', 'Jumlah Peminjaman', ['role' => 'style']]];
+        foreach ($top_books as $book) {
+        // Ambil judul buku berdasarkan buku_id
+        $judul_buku = \App\Models\Buku::findOrFail($book->buku_id)->judul_buku;
 
-// Generate kode warna acak
-$color = '#' . substr(md5(rand()), 0, 6);
+        // Buat warna acak
+        $warna_acak = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
 
-$data[] = [$judul_buku, $book->total, 'color: ' . $color];
-}
+        // Tambahkan data ke array
+        $data[] = [$judul_buku, $book->total, $warna_acak];
+        }
 
-$chart_data_json = json_encode($data);
-        
-
-// dd($chart_data_json);
+        $chart_data_json = json_encode($data);
         return view('dashboard.dashboard.index',compact('total_buku','total_anggota', 'buku_dipinjam', 'buku_dikembalikan', 'chart_data_json'));
     }
 }
