@@ -110,7 +110,7 @@ My Dashboard
               var data = google.visualization.arrayToDataTable(chart_data);
 
               var options = {
-                  title: "5 Buku dengan peminjaman terbanyak",
+                  title: "5 Buku dengan total peminjaman terbanyak",
                   width: 1100,
                   height: 400,
                   bar: {
