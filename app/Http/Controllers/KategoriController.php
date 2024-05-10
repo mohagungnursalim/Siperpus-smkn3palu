@@ -39,7 +39,7 @@ class KategoriController extends Controller
     {
            // Validasi input yang diterima dari form
            $request->validate([
-            'nama_kategori' => 'required|string|max:25',
+            'nama_kategori' => 'required|string|max:50',
         ]);
     
         // Jika tidak ada kesalahan validasi, buat dan simpan data anggota ke dalam database
