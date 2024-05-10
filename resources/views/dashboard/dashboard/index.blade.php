@@ -62,7 +62,7 @@ My Dashboard
                         </span>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize text-bold text-dark">Buku Dipinjam</p>
+                        <p class="text-sm mb-0 text-capitalize text-bold text-dark">Peminjaman</p>
                         <h4 class="mb-0"> {{$buku_dipinjam}} </h4>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ My Dashboard
                         </span>
                     </div>
                     <div class="text-end pt-1">
-                        <p class="text-sm mb-0 text-capitalize text-bold text-dark">Buku Dikembalikan</p>
+                        <p class="text-sm mb-0 text-capitalize text-bold text-dark">Telah Dikembalikan</p>
                         <h4 class="mb-0"> {{$buku_dikembalikan}} </h4>
                     </div>
                 </div>
