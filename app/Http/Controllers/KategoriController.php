@@ -3,95 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategori;
+use App\Repositories\KategoriRepository;
+use App\Repositories\Interfaces\KategoriRepositoryInterface;
 use Illuminate\Http\Request;
 
 class KategoriController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
+    protected KategoriRepositoryInterface $kategoriRepository;
+
+    public function __construct(KategoriRepository $kategoriRepository)
     {
-        $kategories = Kategori::oldest();
+        $this->kategoriRepository = $kategoriRepository;
+    }
 
+    public function index()
+    {
         if (request('search')) {
-            $kategories = Kategori::where('nama_kategori', 'like' , '%' . request('search') . '%' );
+            $kategories = $this->kategoriRepository->searchKategori(request('search'));
+        } else {
+            $kategories = $this->kategoriRepository->getAllKategori();
         }
-
-        $kategories = $kategories->cursorPaginate(10)->WithQueryString();
-
 
         return view('dashboard.kategori.index',compact('kategories'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-           // Validasi input yang diterima dari form
-           $request->validate([
+        $request->validate([
             'nama_kategori' => 'required|string|max:50',
         ]);
-    
-        // Jika tidak ada kesalahan validasi, buat dan simpan data anggota ke dalam database
-        Kategori::create([
-            'nama_kategori' => $request->nama_kategori,
 
-        ]);
-    
+        $this->kategoriRepository->createKategori($request->all());
+
         return redirect('/dashboard/kategori')->with('success', 'Kategori berhasil ditambahkan!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(kategori $kategori)
+    public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(kategori $kategori)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request,kategori $kategori)
-    {
-          // Validasi input yang diterima dari form
-          $request->validate([
+        $request->validate([
             'nama_kategori' => 'required|string|max:25',
         ]);
-    
-        // Jika tidak ada kesalahan validasi, buat dan simpan data kategori ke dalam database
-        $kategori->update([
-            'nama_kategori' => $request->nama_kategori,
 
-        ]);
-    
+        $this->kategoriRepository->updateKategori($request->all(), $id);
+
         return redirect('/dashboard/kategori')->with('success', 'Kategori berhasil diperbarui!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Kategori $kategori)
+    public function destroy($id)
     {
-        $kategori->delete($kategori);
+        $this->kategoriRepository->deleteKategori($id);
 
         return redirect('/dashboard/kategori')->with('success', 'Kategori berhasil dihapus!');
     }
