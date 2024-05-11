@@ -94,7 +94,7 @@ class PeminjamanController extends Controller
         $nomor_urut_format = str_pad($nomor_urut_berikutnya, 2, '0', STR_PAD_LEFT);
         
         // Buat kode peminjaman dengan format yang diinginkan
-        $kode_peminjaman = 'A' . $tahun_sekarang . $bulan_sekarang . $nomor_urut_format;
+        $kode_peminjaman = 'P' . $tahun_sekarang . $bulan_sekarang . $nomor_urut_format;
 
     
         // Buat dan simpan data peminjaman ke dalam database
