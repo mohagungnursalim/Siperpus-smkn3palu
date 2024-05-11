@@ -14,7 +14,8 @@ class Peminjaman extends Model
     protected $casts = [
         'created_at' => 'datetime:d-m-Y',
         'tanggal_peminjaman' => 'datetime:d-m-Y',
-        'tanggal_pengembalian' => 'datetime:d-m-Y'
+        'tanggal_pengembalian' => 'datetime:d-m-Y',
+        'tanggal_dikembalikan' => 'datetime:d-m-Y',
     ];
 
      // Relasi dengan model Anggota

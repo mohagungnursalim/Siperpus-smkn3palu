@@ -78,6 +78,10 @@ Peminjaman
                                         </th>
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Tanggal Dikembalikan
+                                        </th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status
                                         </th>
                                         <th
@@ -119,6 +123,10 @@ Peminjaman
                                             <span
                                                 class="text-secondary text-xs font-weight-bold">{{ optional($peminjaman->tanggal_pengembalian)->format('d/M/Y') }}</span>
                                         </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <span
+                                                class="text-secondary text-xs font-weight-bold">{{ optional($peminjaman->tanggal_dikembalikan)->format('d/M/Y') }}</span>
+                                        </td>
                                         <td class="align-middle text-center">
                                             @if ($peminjaman->status == 'Dipinjam')
                                             <small><button class="badge bg-secondary"
@@ -130,13 +138,9 @@ Peminjaman
                                         </td>
                                         <td class="align-middle text-center">
                                             <span class="text-secondary text-xs font-weight-bold">
-                                                {{-- @if($denda > 0) --}}
-
                                                 <span
-                                                    class="text-secondary text-xs font-weight-bold">Rp{{ number_format($denda, 0, ',', '.') }}</span>
-                                                {{-- @else
-                                                <span class="text-secondary text-xs font-weight-bold">Rp0</span>
-                                                @endif --}}
+                                                    class="text-secondary text-xs font-weight-bold">Rp{{ number_format($peminjaman->denda) }}
+                                                </span>
                                             </span>
                                         </td>
                                         <td class="align-middle">
@@ -319,6 +323,18 @@ aria-hidden="true">
                     </div>
                     </div>
                     @error('tanggal_pengembalian')
+                    <p class="text-bold text-xs text-danger">{{ $message }}</p>
+                    @enderror
+
+                    {{-- Tanggal Dikembalikan --}}
+                    <label class="form-label mt-1">Tanggal Dikembalikan</label>
+                    <div class="input-group mb-2">
+                    <div class="input-group input-group-outline @error('tanggal_dikembalikan') is-invalid @enderror mb-1">
+                        <input type="date" required name="tanggal_dikembalikan" value="{{ old('tanggal_dikembalikan', $peminjaman->tanggal_dikembalikan ? \Carbon\Carbon::parse($peminjaman->tanggal_dikembalikan)->format('Y-m-d') : '') }}"
+                            class="form-control">
+                    </div>
+                    </div>
+                    @error('tanggal_dikembalikan')
                     <p class="text-bold text-xs text-danger">{{ $message }}</p>
                     @enderror
 

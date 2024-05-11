@@ -127,14 +127,20 @@ class PeminjamanController extends Controller
     
 
        // Hitung perbedaan hari antara tanggal pengembalian dan tanggal dikembalikan
+        $tanggalPeminjaman = Carbon::parse($peminjaman->tanggal_peminjaman);
         $tanggalPengembalian = Carbon::parse($peminjaman->tanggal_pengembalian);
         $tanggalDikembalikan = Carbon::parse($request->tanggal_dikembalikan);
-        $perbedaanHari = $tanggalPengembalian->diffInDays($tanggalDikembalikan);
 
-        // Hitung denda berdasarkan tarif denda per hari
-        $tarifDendaPerHari = 1000;
-        $denda = $perbedaanHari * $tarifDendaPerHari;
+        if ($tanggalPeminjaman->equalTo($tanggalDikembalikan)) {
+            $denda = 0; // Jika tanggal pengembalian sama dengan tanggal dikembalikan, denda diatur menjadi 0
+        } else {
+            $perbedaanHari = $tanggalPengembalian->diffInDays($tanggalDikembalikan);
+            // Hitung denda berdasarkan tarif denda per hari
+            $tarifDendaPerHari = 1000;
+            $denda = $perbedaanHari * $tarifDendaPerHari;
+        }
 
+        // $denda;
         // Perbarui data peminjaman
         $peminjaman->update([
             'anggota_id' => $request->anggota_id,
