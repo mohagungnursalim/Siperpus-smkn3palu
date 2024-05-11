@@ -3,38 +3,39 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
+use App\Repositories\Interfaces\ProfileRepositoryInterface;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
+    protected ProfileRepositoryInterface $profileRepository;
+
+    public function __construct(ProfileRepositoryInterface $profileRepository)
+    {
+        $this->profileRepository = $profileRepository;
+    }
+
     /**
      * Display the user's profile form.
      */
-    public function index()
+    public function index(): View
     {
+        $user = auth()->user();
 
-        $users = Auth::user();
-
-        return view('profile.index',compact('users'));
+        return view('profile.index', compact('user'));
     }
-
 
     /**
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $data = $request->validated();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
+        $this->profileRepository->updateProfile($user, $data);
 
         return redirect('/dashboard/profile')->with('success_informasi', 'Profil telah diperbarui!');
     }
@@ -42,21 +43,17 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        $user = auth()->user();
 
-        $user = $request->user();
+        $this->profileRepository->deleteUser($user);
 
-        Auth::logout();
+        auth()->logout();
 
-        $user->delete();
+        request()->session()->invalidate();
+        request()->session()->regenerateToken();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return redirect('/');
     }
 }
