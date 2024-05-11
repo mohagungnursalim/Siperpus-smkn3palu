@@ -169,7 +169,7 @@ Peminjaman
 
 
                             <div class="d-flex justify-content-center mb-3 mt-4">
-                                {{ $peminjamans->links() }}
+                                {{ $peminjamans->withQueryString()->links() }}
                             </div>
                         </div>
                     </div>
@@ -343,6 +343,9 @@ aria-hidden="true">
                         <input class="form-check-input"  name="status" value="Dikembalikan" type="checkbox" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Tandai telah dikembalikan</label>
                     </div>
+                    @error('status')
+                    <p class="text-bold text-xs text-danger">{{ $message }}</p>
+                    @enderror
                
             </div>
         </div>

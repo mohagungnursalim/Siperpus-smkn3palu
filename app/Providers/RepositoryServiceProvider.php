@@ -9,9 +9,11 @@ use App\Repositories\Interfaces\AnggotaRepositoryInterface;
 use App\Repositories\Interfaces\BukuRepositoryInterface;
 use App\Repositories\Interfaces\DashboardRepositoryInterface;
 use App\Repositories\Interfaces\KategoriRepositoryInterface;
+use App\Repositories\Interfaces\PeminjamanRepositoryInterface;
 use App\Repositories\Interfaces\ProfileRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\KategoriRepository;
+use App\Repositories\PeminjamanRepository;
 use App\Repositories\ProfileRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
@@ -37,5 +39,6 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
         $this->app->bind(ProfileRepositoryInterface::class, ProfileRepository::class);
         $this->app->bind(DashboardRepositoryInterface::class, DashboardRepository::class);
+        $this->app->bind(PeminjamanRepositoryInterface::class, PeminjamanRepository::class);
     }
 }
