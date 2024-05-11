@@ -15,24 +15,7 @@ class PeminjamanController extends Controller
      */
     public function index(Request $request)
     {
-        // ------Hitung denda jika terlambat pengembalian---------------
-        $tanggal_pengembalian = Carbon::parse($request->tanggal_pengembalian);
-
-        // Gunakan Carbon Now untuk mendapatkan tanggal sekarang
-        $tanggal_sekarang = Carbon::now();
-
-        // Hitung selisih hari (dalam format desimal)
-        $selisih_hari = $tanggal_sekarang->diffInDays($tanggal_pengembalian);
-
-        // Pastikan selisih hari tidak negatif dan bulatkan ke atas ke bilangan bulat terdekat
-        $selisih_hari = abs($selisih_hari);
-        $selisih_hari = ceil($selisih_hari);
-
-        // Hitung denda
-        $denda = $selisih_hari * 1000;
-
-       
-
+     
         $bukus = Buku::latest()->get();
         $anggotas = Anggota::latest()->get();
         $peminjamans = Peminjaman::with('bukus','anggota')->oldest();
@@ -49,7 +32,7 @@ class PeminjamanController extends Controller
         } 
 
         $peminjamans = $peminjamans->cursorPaginate(10)->WithQueryString();
-        return view('dashboard.peminjaman.index',compact('peminjamans','bukus','anggotas','denda'));
+        return view('dashboard.peminjaman.index',compact('peminjamans','bukus','anggotas'));
     }
 
     /**
@@ -142,15 +125,26 @@ class PeminjamanController extends Controller
             'status' => 'nullable', // Menambahkan aturan validasi untuk status
         ]);
     
+
+       // Hitung perbedaan hari antara tanggal pengembalian dan tanggal dikembalikan
+        $tanggalPengembalian = Carbon::parse($peminjaman->tanggal_pengembalian);
+        $tanggalDikembalikan = Carbon::parse($request->tanggal_dikembalikan);
+        $perbedaanHari = $tanggalPengembalian->diffInDays($tanggalDikembalikan);
+
+        // Hitung denda berdasarkan tarif denda per hari
+        $tarifDendaPerHari = 1000;
+        $denda = $perbedaanHari * $tarifDendaPerHari;
+
         // Perbarui data peminjaman
         $peminjaman->update([
             'anggota_id' => $request->anggota_id,
             'tanggal_peminjaman' => $request->tanggal_peminjaman,
             'tanggal_pengembalian' => $request->tanggal_pengembalian,
+            'tanggal_dikembalikan' => $request->tanggal_dikembalikan,
+            'denda' => $denda, // Simpan denda yang dihitung
             'status' => $request->status
         ]);
-    
-        // Sinkronkan buku_id ke tabel peminjaman_buku
+        // Sinkronkan buku_id ke tabel pivot peminjaman_buku
         $peminjaman->bukus()->sync($request->buku_id);
     
         return redirect('/dashboard/peminjaman')->with('success', 'Peminjaman berhasil diperbarui!');
