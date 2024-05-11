@@ -2,44 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Anggota;
-use App\Models\Buku;
-use App\Models\kategori;
-use App\Models\Peminjaman;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Repositories\Interfaces\DashboardRepositoryInterface;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function index()
+    protected DashboardRepositoryInterface $dashboardRepository;
+
+    public function __construct(DashboardRepositoryInterface $dashboardRepository)
     {
-        $total_buku = Buku::count();
-        $total_anggota = Anggota::count();
-        $buku_dipinjam = Peminjaman::where('status', 'Dipinjam')->count();
-        $buku_dikembalikan = Peminjaman::where('status', 'Dikembalikan')->count();
+        $this->dashboardRepository = $dashboardRepository;
+    }
 
-      // Ambil data jumlah peminjaman untuk setiap buku
-        $top_books = DB::table('peminjaman_buku')
-        ->select('buku_id', DB::raw('count(*) as total'))
-        ->groupBy('buku_id')
-        ->orderByDesc('total')
-        ->limit(5)
-        ->get();
+    public function index(): View
+    {
+        $total_buku = $this->dashboardRepository->getTotalBuku();
+        $total_anggota = $this->dashboardRepository->getTotalAnggota();
+        $buku_dipinjam = $this->dashboardRepository->getBukuDipinjam();
+        $buku_dikembalikan = $this->dashboardRepository->getBukuDikembalikan();
+        $chart_data_json = json_encode($this->dashboardRepository->getChartData());
 
-        // Format data untuk grafik
-        $data = [['Buku', 'Jumlah Peminjaman', ['role' => 'style']]];
-        foreach ($top_books as $book) {
-        // Ambil judul buku berdasarkan buku_id
-        $judul_buku = \App\Models\Buku::findOrFail($book->buku_id)->judul_buku;
-
-        // Buat warna acak
-        $warna_acak = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-
-        // Tambahkan data ke array
-        $data[] = [$judul_buku, $book->total, $warna_acak];
-        }
-
-        $chart_data_json = json_encode($data);
-        return view('dashboard.dashboard.index',compact('total_buku','total_anggota', 'buku_dipinjam', 'buku_dikembalikan', 'chart_data_json'));
+        return view('dashboard.dashboard.index', compact('total_buku', 'total_anggota', 'buku_dipinjam', 'buku_dikembalikan', 'chart_data_json'));
     }
 }
