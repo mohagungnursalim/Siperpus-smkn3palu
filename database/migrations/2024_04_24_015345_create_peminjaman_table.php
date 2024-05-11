@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('anggota_id');
             $table->string('kode_peminjaman');
-            $table->date('tanggal_peminjaman');
-            $table->date('tanggal_pengembalian')->nullable();
+            $table->dateTime('tanggal_peminjaman');
+            $table->dateTime('tanggal_pengembalian');
+            $table->dateTime('tanggal_dikembalikan');
+            $table->string('denda');
             $table->enum('status',['Dipinjam', 'Dikembalikan'])->default('Dipinjam');
             $table->timestamps();
         });
