@@ -11,6 +11,28 @@ My Dashboard
 
 <div class="container-fluid py-4">
     <div class="row">
+        
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-header p-3 pt-2">
+                    <div
+                        class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                        <span class="material-symbols-outlined fa-3x text-white">
+                            paid
+                        </span>
+                    </div>
+                    <div class="text-end pt-1">
+                        <p class="text-sm mb-0 text-capitalize text-bold text-dark">Pendapatan dari Denda</p>
+                        <h4 class="mb-0">Rp{{ number_format($total_denda) }}</h4>
+                    </div>
+                </div>
+                <hr class="dark horizontal my-0">
+                <div class="card-footer p-3">
+
+                </div>
+            </div>
+        </div>
+
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
@@ -72,11 +94,11 @@ My Dashboard
             </div>
         </div>
 
-        <div class="col-xl-3 col-sm-6">
+        <div class="col-xl-3 col-sm-6 mt-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
-                        class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+                        class="icon icon-lg icon-shape bg-gradient-warning shadow-warning text-center border-radius-xl mt-n4 position-absolute">
                         <span class="material-symbols-outlined fa-3x text-white">
                             keyboard_return
                         </span>

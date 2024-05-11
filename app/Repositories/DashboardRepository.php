@@ -30,6 +30,11 @@ class DashboardRepository implements DashboardRepositoryInterface
         return Peminjaman::where('status', 'Dikembalikan')->count();
     }
 
+    public function getTotalDenda(): int
+    {
+        return Peminjaman::sum('denda');
+    }
+
     public function getChartData(): array
     {
         $topBooks = DB::table('peminjaman_buku')

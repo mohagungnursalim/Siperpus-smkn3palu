@@ -12,5 +12,7 @@ interface DashboardRepositoryInterface
 
     public function getBukuDikembalikan(): int;
 
+    public function getTotalDenda(): int;
+    
     public function getChartData(): array;
 }
