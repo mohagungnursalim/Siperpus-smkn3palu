@@ -5,33 +5,30 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use App\Repositories\BukuRepository;
 
 class BukuController extends Controller
 {
+    protected $bukuRepository;
+
+    public function __construct(BukuRepository $bukuRepository)
+    {
+        $this->bukuRepository = $bukuRepository;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $bukus = Buku::with('kategori')->oldest();
+        $bukus = $this->bukuRepository->getAllBuku();
         $kategories = Kategori::oldest()->get();
 
         if (request('search')) {
-            $bukus->with('kategori')->where('judul_buku', 'like' , '%' . request('search') . '%' );
+            $bukus = $this->bukuRepository->searchBuku(request('search'));
         }
 
-        $bukus = $bukus->cursorPaginate(10)->WithQueryString();
-
-        // dd($bukus);
-        return view('dashboard.buku.index',compact('bukus','kategories'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('dashboard.buku.index', compact('bukus', 'kategories'));
     }
 
     /**
@@ -39,7 +36,6 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input yang diterima dari form
         $request->validate([
             'kode_buku' => 'required|string|max:100',
             'judul_buku' => 'required|string',
@@ -48,41 +44,12 @@ class BukuController extends Controller
             'tahun_terbit' => 'required|string',
             'jumlah' => 'required|numeric',
             'kategori' => 'required|exists:kategori,id',
-
         ]);
 
-        // Buat dan simpan data buku ke dalam database
-        $buku = Buku::create([
-            'kode_buku' => $request->kode_buku,
-            'judul_buku' => $request->judul_buku,
-            'pengarang' => $request->pengarang,
-            'penerbit' => $request->tahun_terbit,
-            'tahun_terbit' => $request->tahun_terbit,
-            'jumlah' => $request->jumlah
-        ]);
+        $data = $request->all();
+        $this->bukuRepository->storeBuku($data);
 
-            // Tambahkan kategori buku
-        if ($request->has('kategori')) {
-            $buku->kategori()->attach($request->kategori);
-        }
-    
         return redirect('/dashboard/buku')->with('success', 'Buku berhasil ditambahkan!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Buku $buku)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Buku $buku)
-    {
-        //
     }
 
     /**
@@ -90,7 +57,6 @@ class BukuController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validasi input yang diterima dari form
         $request->validate([
             'kode_buku' => 'required|string|max:100',
             'judul_buku' => 'required|string',
@@ -100,38 +66,19 @@ class BukuController extends Controller
             'jumlah' => 'required|numeric',
             'kategori' => 'required|exists:kategori,id',
         ]);
-    
-        // Temukan buku yang ingin di-update
-        $buku = Buku::findOrFail($id);
-    
-        // Perbarui data buku
-        $buku->update([
-            'kode_buku' => $request->kode_buku,
-            'judul_buku' => $request->judul_buku,
-            'pengarang' => $request->pengarang,
-            'penerbit' => $request->tahun_terbit,
-            'tahun_terbit' => $request->tahun_terbit,
-            'jumlah' => $request->jumlah
-        ]);
-    
-        // Hapus kategori buku yang terhubung sebelumnya
-        $buku->kategori()->detach();
-    
-        // Tambahkan kategori buku yang baru
-        if ($request->has('kategori')) {
-            $buku->kategori()->attach($request->kategori);
-        }
-    
+
+        $data = $request->all();
+        $this->bukuRepository->updateBuku($data, $id);
+
         return redirect('/dashboard/buku')->with('success', 'Buku berhasil diperbarui!');
     }
-    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Buku $buku)
+    public function destroy($id)
     {
-        $buku->delete($buku);
+        $this->bukuRepository->deleteBuku($id);
 
         return redirect('/dashboard/buku')->with('success', 'Buku berhasil dihapus!');
     }

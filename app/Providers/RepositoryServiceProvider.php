@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\BukuRepository;
+use App\Repositories\Interfaces\BukuRepositoryInterface;
 use App\Repositories\Interfaces\KategoriRepositoryInterface;
 use App\Repositories\KategoriRepository;
 use Illuminate\Support\ServiceProvider;
@@ -22,5 +24,6 @@ class RepositoryServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(KategoriRepositoryInterface::class, KategoriRepository::class);
+        $this->app->bind(BukuRepositoryInterface::class, BukuRepository::class);
     }
 }
