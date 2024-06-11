@@ -76,10 +76,10 @@ Peminjaman
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Tanggal Pengembalian
                                         </th>
-                                        <th
+                                        {{-- <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Tanggal Dikembalikan
-                                        </th>
+                                        </th> --}}
                                         <th
                                             class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                             Status
@@ -123,10 +123,10 @@ Peminjaman
                                             <span
                                                 class="text-secondary text-xs font-weight-bold">{{ optional($peminjaman->tanggal_pengembalian)->format('d/M/Y') }}</span>
                                         </td>
-                                        <td class="align-middle text-center text-sm">
+                                        {{-- <td class="align-middle text-center text-sm">
                                             <span
                                                 class="text-secondary text-xs font-weight-bold">{{ optional($peminjaman->tanggal_dikembalikan)->format('d/M/Y') }}</span>
-                                        </td>
+                                        </td> --}}
                                         <td class="align-middle text-center">
                                             @if ($peminjaman->status == 'Dipinjam')
                                             <small><button class="badge bg-secondary"
