@@ -125,7 +125,7 @@
                             account_circle
                         </span>
                     </div>
-                    <span class="nav-link-text ms-1">Profile Saya</span>
+                    <span class="nav-link-text ms-1">Profil</span>
                 </a>
             </li>
 
@@ -136,7 +136,7 @@
                             move_item
                         </span>
                     </div>
-                    <span class="nav-link-text ms-1">LogOut</span>
+                    <span class="nav-link-text ms-1">Keluar</span>
                 </a>
             </li>
 
@@ -148,21 +148,21 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title font-weight-normal" id="exampleModalLabel">LogOut Confirmation</h5>
+                            <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Konfirmasi Keluar</h5>
                             <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                                 aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <h4>Dengan mengklik LogOut maka Anda keluar dari akun Anda!</h3>
+                            <h4>Dengan mengklik Keluar maka sesi masuk akun anda akan berakhir!</h3>
                         </div>
                         <form action="/logout" method="POST">
                             @csrf
                             <div class="modal-footer">
                                 <button type="button" class="btn bg-gradient-secondary"
-                                    data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn bg-gradient-primary">LogOut</button>
+                                    data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn bg-gradient-primary">Keluar</button>
                             </div>
                         </form>
                     </div>

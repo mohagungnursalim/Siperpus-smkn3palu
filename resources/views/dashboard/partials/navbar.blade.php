@@ -23,7 +23,7 @@
                     <ul class="navbar-nav  justify-content-end">
                         
                         <li>
-                            <span> <small><i class="fa fa-user me-sm-1" aria-hidden="true"></i> {{Auth::user()->name}}</small></span>
+                            <span> <small><i class="fa fa-user me-sm-1" aria-hidden="true"></i> {{Auth::user()->name}} @if (Auth::user()->is_admin == true) <kbd class="bg-primary">Admin</kbd> @else <kbd class="bg-success">Pustakawan</kbd> @endif</small></span>
                         </li>
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
