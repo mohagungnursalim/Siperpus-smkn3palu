@@ -7,7 +7,7 @@
                         document.write(new Date().getFullYear())
 
                     </script>
-                    SMK Negeri 3 Palu
+                    Agung Stiven Cahyati Angely
                 </div>
             </div>
         </div>

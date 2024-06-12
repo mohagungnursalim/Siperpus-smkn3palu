@@ -5,16 +5,21 @@ namespace App\Repositories;
 use App\Models\Peminjaman;
 use App\Repositories\Interfaces\PeminjamanRepositoryInterface;
 use Carbon\Carbon;
-use Illuminate\Pagination\CursorPaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Builder;
 
 class PeminjamanRepository implements PeminjamanRepositoryInterface
 {
-    public function getAllPeminjaman(): CursorPaginator
+    public function getAllPeminjaman(): Paginator
     {
-        return Peminjaman::with('bukus', 'anggota')->oldest()->cursorPaginate(10)->withQueryString();
+        return Peminjaman::with('bukus', 'anggota')
+            ->oldest()
+            ->simplePaginate(10)
+            ->appends(request()->query());
     }
 
-    public function searchPeminjaman(string $keyword): CursorPaginator
+    public function searchPeminjaman(string $keyword): Paginator
     {
         return Peminjaman::with('bukus', 'anggota')
             ->where('kode_peminjaman', 'like', '%' . $keyword . '%')
@@ -22,7 +27,7 @@ class PeminjamanRepository implements PeminjamanRepositoryInterface
                 $query->where('nama_lengkap', 'like', '%' . $keyword . '%');
             })->orWhereHas('bukus', function ($query) use ($keyword) {
                 $query->where('judul_buku', 'like', '%' . $keyword . '%');
-            })->oldest()->cursorPaginate(10)->withQueryString();
+            })->oldest()->simplePaginate(10)->appends(request()->query());
     }
 
     public function storePeminjaman(array $data): void

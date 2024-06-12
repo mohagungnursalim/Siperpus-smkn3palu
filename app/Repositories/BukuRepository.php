@@ -8,12 +8,12 @@ class BukuRepository
 {
     public function getAllBuku()
     {
-        return Buku::with('kategori')->oldest()->cursorPaginate(10)->withQueryString();
+        return Buku::with('kategori')->oldest()->simplePaginate(10)->appends(request()->query());
     }
 
     public function searchBuku($keyword)
     {
-        return Buku::with('kategori')->where('judul_buku', 'like', '%' . $keyword . '%')->oldest()->cursorPaginate(10)->withQueryString();
+        return Buku::with('kategori')->where('judul_buku', 'like', '%' . $keyword . '%')->oldest()->simplePaginate(10)->appends(request()->query());
     }
 
     public function storeBuku($data)

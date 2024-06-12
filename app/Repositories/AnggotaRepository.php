@@ -10,12 +10,12 @@ class AnggotaRepository
 {
     public function getAllAnggota()
     {
-        return Anggota::oldest()->cursorPaginate(10)->withQueryString();
+        return Anggota::oldest()->simplePaginate(10)->withQueryString();
     }
 
     public function searchAnggota($keyword)
     {
-        return Anggota::where('nama_lengkap', 'like', '%' . $keyword . '%')->oldest()->cursorPaginate(10)->withQueryString();
+        return Anggota::where('nama_lengkap', 'like', '%' . $keyword . '%')->oldest()->simplePaginate(10)->withQueryString();
     }
 
     public function storeAnggota($data)

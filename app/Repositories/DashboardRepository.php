@@ -37,18 +37,17 @@ class DashboardRepository implements DashboardRepositoryInterface
 
     public function getChartData(): array
     {
-        $topBooks = DB::table('peminjaman_buku')
-            ->select('buku_id', DB::raw('count(*) as total'))
-            ->groupBy('buku_id')
-            ->orderByDesc('total')
-            ->limit(5)
+        // Mengambil data peminjaman dan mengelompokkan berdasarkan bulan
+        $monthlyLoans = DB::table('peminjaman')
+            ->select(DB::raw('DATE_FORMAT(tanggal_peminjaman, "%m-%Y") as month'), DB::raw('count(*) as total'))
+            ->groupBy('month')
+            ->orderBy('month')
             ->get();
 
-        $data = [['Buku', 'Jumlah Peminjaman', ['role' => 'style']]];
-        foreach ($topBooks as $book) {
-            $judulBuku = Buku::findOrFail($book->buku_id)->judul_buku;
-            $randomColor = sprintf('#%06X', mt_rand(0, 0xFFFFFF));
-            $data[] = [$judulBuku, $book->total, $randomColor];
+        // Menyusun data dalam format yang sesuai untuk chart
+        $data = [['Bulan', 'Jumlah Peminjaman']];
+        foreach ($monthlyLoans as $loan) {
+            $data[] = [$loan->month, $loan->total];
         }
 
         return $data;

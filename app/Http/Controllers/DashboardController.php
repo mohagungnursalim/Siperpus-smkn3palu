@@ -21,8 +21,10 @@ class DashboardController extends Controller
         $buku_dipinjam = $this->dashboardRepository->getBukuDipinjam();
         $buku_dikembalikan = $this->dashboardRepository->getBukuDikembalikan();
         $total_denda = $this->dashboardRepository->getTotalDenda();        
-        $chart_data_json = json_encode($this->dashboardRepository->getChartData());
+        // Mengambil data peminjaman per bulan
+        $chartData = $this->dashboardRepository->getChartData();
 
-        return view('dashboard.dashboard.index', compact('total_buku', 'total_anggota', 'buku_dipinjam', 'buku_dikembalikan', 'chart_data_json', 'total_denda'));
-    }
+        // Mengirim data peminjaman per bulan ke view
+        return view('dashboard.dashboard.index', compact('total_buku', 'total_anggota', 'buku_dipinjam', 'buku_dikembalikan', 'total_denda', 'chartData'));
+     }
 }

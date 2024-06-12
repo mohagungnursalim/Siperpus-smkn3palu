@@ -13,7 +13,10 @@
             <div class="card z-index-0 fadeIn3 fadeInBottom">
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Login</h4>
+                  {{-- <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Login</h4> --}}
+                  <div class="d-flex justify-content-center">
+                    <img src="{{ asset('assets/img/smkn3palu.png') }}" class="navbar-brand-img" width="165px" height="90px" alt="main_logo">
+                  </div>
                   <div class="row mt-3">
                     
                   </div>
@@ -52,7 +55,7 @@
                 © <script>
                   document.write(new Date().getFullYear())
                 </script>,
-                made with <i class="fa fa-heart" aria-hidden="true"></i> 
+               Agung Stiven Cahyati Angely
               </div>
             </div>
             
