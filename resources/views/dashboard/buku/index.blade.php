@@ -150,7 +150,21 @@ Buku
 
 
                             <div class="d-flex justify-content-center mb-3 mt-4">
-                                {{ $bukus->links() }}
+                                @if ($bukus->isEmpty())
+                                      
+                                  @else
+                                  @if ($bukus->onFirstPage())
+                                        <span class="btn btn-secondary disabled">Previous</span>
+                                    @else
+                                        <a href="{{ $bukus->previousPageUrl() }}" class="btn btn-primary">< Previous</a>
+                                    @endif
+                        
+                                    @if ($bukus->hasMorePages())
+                                        <a href="{{ $bukus->nextPageUrl() }}" class="btn btn-primary">Next ></a>
+                                    @else
+                                        <span class="btn btn-secondary disabled">Next</span>
+                                    @endif
+                                    @endif
                             </div>
                         </div>
                     </div>

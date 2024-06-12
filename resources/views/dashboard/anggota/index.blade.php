@@ -128,7 +128,21 @@ Anggota
                           
                             
                             <div class="d-flex justify-content-center mb-3 mt-4">
-                              {{ $anggotas->links() }}
+                                @if ($anggotas->isEmpty())
+                                    
+                                @else
+                                    @if ($anggotas->onFirstPage())
+                                    <span class="btn btn-secondary disabled">Previous</span>
+                                    @else
+                                        <a href="{{ $anggotas->previousPageUrl() }}" class="btn btn-primary">Previous</a>
+                                    @endif
+                        
+                                    @if ($anggotas->hasMorePages())
+                                        <a href="{{ $anggotas->nextPageUrl() }}" class="btn btn-primary">Next</a>
+                                    @else
+                                        <span class="btn btn-secondary disabled">Next</span>
+                                    @endif
+                                @endif
                            </div>
                         </div>
                     </div>

@@ -43,10 +43,19 @@ Edit Profil
 
                         </div>
 
-                        <label for="exampleInputPassword1">Email</label>
+                        <label for="exampleInputPassword1" class="mt-2">Email</label>
                         <div class="form-group input-group input-group-outline">
                             <input type="email" class="form-control" name="email" placeholder="Email"
                                 value="{{ auth()->user()->email }}">
+                        </div>
+
+                        <label for="exampleInputPassword1" class="mt-2">Peran</label>
+                        <div class="form-group input-group input-group-outline">
+                            @if (Auth::user()->is_admin == true)
+                            <input type="text" class="form-control" disabled value="Admin">
+                            @else
+                            <input type="text" class="form-control" disabled value="Pustakawan">
+                            @endif
                         </div>
 
                         <div class="text-center mt-3">

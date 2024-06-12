@@ -94,7 +94,7 @@ My Dashboard
             </div>
         </div>
 
-        <div class="col-xl-3 col-sm-6 mt-4">
+        {{-- <div class="col-xl-3 col-sm-6 mt-4">
             <div class="card">
                 <div class="card-header p-3 pt-2">
                     <div
@@ -112,44 +112,46 @@ My Dashboard
                 <div class="card-footer p-3">
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
 
     <div class="row mt-4">
 
-      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-      <script type="text/javascript">
-          google.charts.load("current", {
-              packages: ['corechart']
-          });
-          google.charts.setOnLoadCallback(drawChart);
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
 
-          function drawChart() {
-              // Ambil data dari PHP yang disediakan oleh controller
-              var chart_data = {!! $chart_data_json !!};
+        function drawChart() {
+            // Mendapatkan data dari PHP
+            const chartData = @json($chartData);
 
-              var data = google.visualization.arrayToDataTable(chart_data);
+            // Mengonversi data ke format DataTable Google Charts
+            const data = google.visualization.arrayToDataTable(chartData);
 
-              var options = {
-                  title: "5 Buku dengan total peminjaman terbanyak",
-                  width: 1100,
-                  height: 400,
-                  bar: {
-                      groupWidth: "95%"
-                  },
-                  legend: {
-                      position: "none"
-                  },
-              };
-              var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
-              chart.draw(data, options);
-          }
+            
+            const options = {
+                title: 'Jumlah Peminjaman Per Bulan',
+                curveType: 'function',
+                legend: { position: 'bottom' },
+                hAxis: {
+                    title: 'Bulan',
+                    format: 'M-Y'
+                },
+                vAxis: {
+                    title: 'Jumlah Peminjaman',
+                    minValue: 0
+                }
+            };
 
-      </script>
+            const chart = new google.visualization.LineChart(document.getElementById('loanChart'));
 
-      
-        <div id="columnchart_values" style="width: 900px; height: 300px;"></div>
+            chart.draw(data, options);
+        }
+    </script>
+
+    <div id="loanChart" style="width: 100%; height: 500px;"></div>
 
     </div>
 

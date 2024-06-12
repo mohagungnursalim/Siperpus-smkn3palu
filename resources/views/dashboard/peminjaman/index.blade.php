@@ -169,7 +169,22 @@ Peminjaman
 
 
                             <div class="d-flex justify-content-center mb-3 mt-4">
-                                {{ $peminjamans->withQueryString()->links() }}
+                                
+                                  @if ($peminjamans->isEmpty())
+                                      
+                                  @else
+                                  @if ($peminjamans->onFirstPage())
+                                        <span class="btn btn-secondary disabled">Previous</span>
+                                    @else
+                                        <a href="{{ $peminjamans->previousPageUrl() }}" class="btn btn-primary">< Previous</a>
+                                    @endif
+                        
+                                    @if ($peminjamans->hasMorePages())
+                                        <a href="{{ $peminjamans->nextPageUrl() }}" class="btn btn-primary">Next ></a>
+                                    @else
+                                        <span class="btn btn-secondary disabled">Next</span>
+                                    @endif
+                                    @endif
                             </div>
                         </div>
                     </div>

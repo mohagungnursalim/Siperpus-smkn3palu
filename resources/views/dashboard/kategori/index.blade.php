@@ -102,7 +102,21 @@ Kategori
                           
                             
                             <div class="d-flex justify-content-center mb-3 mt-4">
-                              {{ $kategories->links() }}
+                                @if ($kategories->isEmpty())
+                                      
+                                @else
+                                @if ($kategories->onFirstPage())
+                                      <span class="btn btn-secondary disabled">Previous</span>
+                                  @else
+                                      <a href="{{ $kategories->previousPageUrl() }}" class="btn btn-primary">< Previous</a>
+                                  @endif
+                      
+                                  @if ($kategories->hasMorePages())
+                                      <a href="{{ $kategories->nextPageUrl() }}" class="btn btn-primary">Next ></a>
+                                  @else
+                                      <span class="btn btn-secondary disabled">Next</span>
+                                  @endif
+                                  @endif
                            </div>
                         </div>
                     </div>

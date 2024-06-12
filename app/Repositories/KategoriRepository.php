@@ -10,12 +10,12 @@ class KategoriRepository implements KategoriRepositoryInterface
 {
     public function getAllKategori()
     {
-        return kategori::oldest()->cursorPaginate(10)->withQueryString();
+        return kategori::oldest()->simplePaginate(10)->withQueryString();
     }
 
     public function searchKategori($keyword)
     {
-        return kategori::where('nama_kategori', 'like', '%' . $keyword . '%')->oldest()->cursorPaginate(10)->withQueryString();
+        return kategori::where('nama_kategori', 'like', '%' . $keyword . '%')->oldest()->simplePaginate(10)->withQueryString();
     }
 
     public function getKategoriById($id)
