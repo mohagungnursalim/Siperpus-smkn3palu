@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('anggota', function (Blueprint $table) {
             $table->id();
             $table->string('nama_lengkap');
+            $table->string('gambar')->nullable();
             $table->string('kelas');
             $table->string('jurusan');
             $table->string('alamat');
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamps();
         });
+        
     }
 
     /**
