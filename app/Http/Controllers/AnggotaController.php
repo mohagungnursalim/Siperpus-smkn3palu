@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Anggota;
 use Illuminate\Http\Request;
 use App\Repositories\AnggotaRepository;
+use Illuminate\Support\Facades\Storage;
 
 class AnggotaController extends Controller
 {
@@ -37,6 +38,7 @@ class AnggotaController extends Controller
     {
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
+            'gambar' => 'required|max:3500', 
             'kelas' => 'required|in:X,XI,XII',
             'jurusan' => 'required|string',
             'alamat' => 'required|string',
@@ -44,7 +46,15 @@ class AnggotaController extends Controller
             'email' => 'required|string|email|unique:anggota,email',
         ]);
 
+        // Memastikan file gambar ada sebelum mencoba menyimpannya
+        if ($request->hasFile('gambar')) {
+            $gambarPath = $request->file('gambar')->store('foto-anggota', 'public');
+        }
+
+        // Menyimpan data anggota
         $data = $request->all();
+        $data['gambar'] = $gambarPath; // Menyimpan path gambar ke dalam database
+
         $this->anggotaRepository->storeAnggota($data);
 
         return redirect('/dashboard/anggota')->with('success', 'Anggota berhasil diregistrasi!');
@@ -52,11 +62,14 @@ class AnggotaController extends Controller
 
     /**
      * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id)
+     */    
+
+     public function update(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
             'nama_lengkap' => 'required|string|max:255',
+            'gambar' => 'nullable|max:2048', // Tambahkan 'image' untuk validasi tipe file
             'kelas' => 'required|in:X,XI,XII',
             'jurusan' => 'required|string',
             'alamat' => 'required|string',
@@ -64,11 +77,38 @@ class AnggotaController extends Controller
             'email' => 'required|string|email|unique:anggota,email,' . $id,
         ]);
 
-        $data = $request->all();
+        // Ambil data anggota berdasarkan ID
+        $data = $request->only(['nama_lengkap', 'kelas', 'jurusan', 'alamat', 'telepon', 'email']);
+
+        // Memeriksa apakah file gambar diunggah
+        if ($request->hasFile('gambar')) {
+            // Hapus gambar lama jika ada
+            $this->hapusGambarLama($id);
+
+            // Simpan gambar baru
+            $gambarPath = $request->file('gambar')->store('foto-anggota', 'public');
+            $data['gambar'] = $gambarPath; // Update path gambar ke dalam data
+        }
+        // Update data anggota
         $this->anggotaRepository->updateAnggota($data, $id);
 
+        // Redirect dengan pesan sukses
         return redirect('/dashboard/anggota')->with('success', 'Anggota berhasil diperbarui!');
     }
+
+    private function hapusGambarLama($id)
+    {
+        $anggota = $this->anggotaRepository->findAnggotaById($id);
+
+        // Hapus gambar lama jika ada
+        if ($anggota->gambar) {
+            Storage::disk('public')->delete($anggota->gambar);
+        }
+    }
+
+     
+     
+     
 
     /**
      * Remove the specified resource from storage.

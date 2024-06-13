@@ -22,6 +22,11 @@ class AnggotaRepository
     {
         return Anggota::create($data);
     }
+    
+    public function findAnggotaById($id)
+    {
+        return Anggota::findOrFail($id);
+    }
 
     public function updateAnggota($data, $id)
     {
@@ -29,6 +34,7 @@ class AnggotaRepository
         $anggota->update($data);
         return $anggota;
     }
+    
 
     public function deleteAnggota($id)
     {

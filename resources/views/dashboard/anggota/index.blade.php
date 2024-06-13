@@ -50,11 +50,26 @@ Anggota
                                 </button>
                             </div>
                             @endif
+                            @if (session('error'))
+                            <div id="alertContainer" class="alert alert-success alert-dismissible text-white fade show" role="alert">
+                                <span class="alert-icon align-middle">
+                                    <span class="material-icons text-md">
+                                        thumb_up_off_alt
+                                    </span>
+                                </span>
+                                <span class="alert-text"><strong>Error!</strong> {{ session('error') }}</span>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            @endif
 
                        @if ($anggotas->count())                         
                             <table class="table align-items-center mb-0">
                               <thead>
                                   <tr>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                        Foto</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                           Nama Lengkap</th>
                                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -77,6 +92,13 @@ Anggota
                                   @foreach ($anggotas as $anggota)
 
                                   <tr>
+                                    <td class="text-wrap text-sm align-middle text-center">
+                                        @if($anggota->gambar)
+                                        <img src="{{ asset('storage/' . $anggota->gambar) }}" alt="{{ $anggota->nama_lengkap }}"  style="width: 25px">
+                                    @else
+                                        Tidak ada gambar
+                                    @endif    
+                                    </td>
                                       <td class="text-wrap">
                                           <div class="d-flex px-2 py-1 text-center">
                                               <div class="d-flex flex-column justify-content-center">
@@ -167,7 +189,7 @@ Anggota
             </div>
             <div class="modal-body">
                 <div class="p-4">
-                    <form method="post" action="{{ route('anggota.store') }}">
+                    <form method="post" action="{{ route('anggota.store') }}" enctype="multipart/form-data">
                         @csrf
                         <label class="form-label">Nama Lengkap</label>
                         <div class="input-group input-group-outline @error('nama_lengkap') is-invalid @enderror mb-1">
@@ -176,6 +198,16 @@ Anggota
                         @error('nama_lengkap')
                         <p class="text-bold text-xs text-danger">{{ $message }}</p>
                         @enderror
+
+                        <label class="form-label">Foto Anggota</label>
+                        <img  class="img-preview img-fluid mb-3 col-sm-5" style="width: 80px">
+                        <div class="input-group input-group-outline @error('gambar') is-invalid @enderror mb-1">
+                            <input onchange="previewImage()" type="file" id="image" name="gambar" value="{{old('gambar')}}" class="form-control">
+                        </div>
+                        @error('gambar')
+                        <p class="text-bold text-xs text-danger">{{ $message }}</p>
+                        @enderror
+
                         <label class="form-label">Kelas</label>
                         <div class="input-group input-group-outline @error('kelas') is-invalid @enderror mb-1">
                             <select name="kelas" class="form-control">
@@ -265,7 +297,7 @@ Anggota
             </div>
             <div class="modal-body">
                 <div class="p-4">
-                    <form method="post" action="{{ route('anggota.update',$anggota->id) }}">
+                    <form method="post" action="{{ url('/dashboard/anggota/' . $anggota->id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('put')
                         <label class="form-label">Nama Lengkap</label>
@@ -276,6 +308,23 @@ Anggota
                         @error('nama_lengkap')
                         <p class="text-bold text-xs text-danger">{{ $message }}</p>
                         @enderror
+
+                        
+                        <label class="form-label">Foto Anggota</label>
+                        @if($anggota->gambar)
+                            <img src="{{ asset('storage/' . $anggota->gambar) }}" id="edit-preview{{ $anggota->id }}" class="img-preview img-fluid mb-3 col-sm-5 d-block" style="width: 80px">
+                        @else
+                            <img src="#" id="edit-preview{{ $anggota->id }}" class="img-preview img-fluid mb-3 col-sm-5 d-none" style="width: 80px">
+                        @endif
+                        <div class="input-group input-group-outline @error('gambar') is-invalid @enderror mb-1">
+                            <input onchange="editImage{{ $anggota->id }}()" type="file" id="editimage{{ $anggota->id }}" name="gambar" value="{{ old('gambar') }}" class="form-control" accept="image/*">
+                        </div>
+                        @error('gambar')
+                            <p class="text-bold text-xs text-danger">{{ $message }}</p>
+                        @enderror
+                        
+
+
                         <label class="form-label">Kelas</label>
                         <div class="input-group input-group-outline @error('kelas') is-invalid @enderror mb-2">
                             <select name="kelas" class="form-control">
@@ -344,7 +393,7 @@ Anggota
                 <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Tutup</button>
                 <button type="submit" class="btn bg-gradient-info">Simpan</button>
             </div>
-            </form>
+                    </form>
         </div>
     </div>
 </div>
@@ -405,3 +454,47 @@ Anggota
       }, 1200);
   });
 </script>
+
+{{-- Preview Gambar --}}
+<script>
+    function previewImage() {
+
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img-preview');
+
+        imgPreview.style.display = 'block';
+
+        const oFReader = new FileReader();
+
+        oFReader.readAsDataURL(image.files[0]);
+
+        oFReader.onload = function (oFREvent) {
+
+            imgPreview.src = oFREvent.target.result;
+
+        }
+    }
+
+</script>
+
+{{-- edit image preview --}}
+@foreach ($anggotas as $anggota)
+<script>
+    function editImage{{ $anggota->id }}() {
+        const image = document.querySelector('#editimage{{ $anggota->id }}');
+        const editPreview = document.querySelector('#edit-preview{{ $anggota->id }}');
+
+        const file = image.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            editPreview.src = e.target.result;
+            editPreview.classList.remove('d-none'); // Tampilkan gambar preview
+        };
+
+        if (file) {
+            reader.readAsDataURL(file); // Membaca file yang dipilih
+        }
+    }
+</script>
+@endforeach
