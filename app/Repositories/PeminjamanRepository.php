@@ -114,4 +114,11 @@ class PeminjamanRepository implements PeminjamanRepositoryInterface
         $peminjaman = Peminjaman::findOrFail($id);
         return $peminjaman->delete();
     }
+
+    public function getPeminjamanByMonthAndYear($bulan, $tahun)
+    {
+        return Peminjaman::whereYear('tanggal_peminjaman', $tahun)
+                         ->whereMonth('tanggal_peminjaman', $bulan)
+                         ->get();
+    }
 }

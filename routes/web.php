@@ -38,6 +38,7 @@ Route::resource('/dashboard/kategori', KategoriController::class)->middleware(['
 Route::resource('/dashboard/buku', BukuController::class)->middleware(['auth','RedirectIfNotLibrarian']);
 
 Route::resource('/dashboard/peminjaman', PeminjamanController::class)->middleware(['auth','RedirectIfNotLibrarian']);
+Route::post('/laporan-bulanan/export', [PeminjamanController::class, 'exportExcel'])->name('laporan-bulanan.export')->middleware(['auth','RedirectIfNotLibrarian']);
 
 // Only Admin
 Route::resource('/dashboard/user', UserController::class)->middleware(['auth','is_admin']);

@@ -3,9 +3,7 @@
 namespace App\Repositories\Interfaces;
 
 use App\Models\Peminjaman;
-use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
 
 interface PeminjamanRepositoryInterface
 {
@@ -18,4 +16,6 @@ interface PeminjamanRepositoryInterface
     public function updatePeminjaman(Peminjaman $peminjaman, array $data): bool;
 
     public function deletePeminjaman($id): bool;
+
+    public function getPeminjamanByMonthAndYear($bulan, $tahun);
 }

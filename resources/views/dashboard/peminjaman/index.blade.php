@@ -22,6 +22,11 @@ Peminjaman
                                     data-bs-target="#inputModal">
                                     Tambah Peminjaman
                                 </button>
+
+                                <button type="button" class="btn bg-gradient-success" data-bs-toggle="modal"
+                                    data-bs-target="#exportModal">
+                                    Laporan
+                                </button>
                             </div>
 
                             <form action="{{ route('peminjaman.index') }}" method="GET">
@@ -39,6 +44,18 @@ Peminjaman
                                     </div>
                                 </div>
                             </form>
+                            @if (request('search'))
+                                <div class="d-flex justify-content-end">
+                                   
+                                    <a href="/dashboard/peminjaman" class="btn btn-secondary">Refresh</a>
+                                    @php
+                                    for ($i = 0; $i < 40; $i++) { 
+                                        echo '&nbsp;';
+                                    }
+                                     @endphp
+                                   
+                                </div>
+                            @endif
 
                             @if (session('success'))
                             <div id="alertContainer" class="alert alert-success alert-dismissible text-white fade show"
@@ -407,6 +424,53 @@ aria-hidden="true">
 </div>
 @endforeach
 
+
+{{-- Modal Export Laporan Bulanan --}}
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Export Laporan</h5>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="p-4">
+                    <form action="{{ route('laporan-bulanan.export') }}" method="POST">
+                        @csrf
+                        <label for="bulan">Bulan:</label>
+                        <div class="input-group input-group-outline mb-1">
+                            <select class="form-control" id="bulan" name="bulan">
+                                @for ($i = 1; $i <= 12; $i++)
+                                    <option value="{{ $i }}" {{ now()->month == $i ? 'selected' : '' }}>
+                                        {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        <label for="tahun">Tahun:</label>
+                        <div class="input-group input-group-outline mb-1">
+                            <select class="form-control" id="tahun" name="tahun">
+                                @for ($i = now()->year - 5; $i <= now()->year; $i++)
+                                    <option value="{{ $i }}" {{ now()->year == $i ? 'selected' : '' }}>
+                                        {{ $i }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3">Generate Laporan</button>
+                    </form>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Include JavaScript Select2 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

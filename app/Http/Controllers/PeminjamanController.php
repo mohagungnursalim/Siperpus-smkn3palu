@@ -7,6 +7,8 @@ use App\Models\Buku;
 use App\Models\Peminjaman;
 use App\Repositories\Interfaces\PeminjamanRepositoryInterface;
 use Carbon\Carbon;
+use App\Exports\PeminjamanExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class PeminjamanController extends Controller
@@ -107,5 +109,21 @@ class PeminjamanController extends Controller
     {
         $this->peminjamanRepository->deletePeminjaman($id);
         return redirect('/dashboard/peminjaman')->with('success', 'Peminjaman berhasil dihapus!');
+    }
+
+    // public function exportExcel(Request $request)
+    // {
+    //     $bulan = $request->input('bulan', now()->month); // Default ke bulan ini jika tidak ada input
+    //     $tahun = $request->input('tahun', now()->year); // Default ke tahun ini jika tidak ada input
+
+    //     return Excel::download(new PeminjamanExport($bulan, $tahun, $this->peminjamanRepository), 'laporan-bulanan.xlsx');
+    // }
+
+    public function exportExcel(Request $request)
+    {
+        $bulan = $request->input('bulan', now()->month); // Default ke bulan ini jika tidak ada input
+        $tahun = $request->input('tahun', now()->year); // Default ke tahun ini jika tidak ada input
+
+        return Excel::download(new PeminjamanExport($bulan, $tahun, $this->peminjamanRepository), 'laporan-bulanan.xlsx');
     }
 }
