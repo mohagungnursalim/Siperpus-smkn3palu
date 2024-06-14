@@ -75,6 +75,19 @@ Kelola User
                   </div>
               </div>
               </form>
+
+              @if (request('search'))
+                                <div class="d-flex justify-content-end">
+                                   
+                                    <a href="/dashboard/user" class="btn btn-secondary">Refresh</a>
+                                    @php
+                                    for ($i = 0; $i < 40; $i++) { 
+                                        echo '&nbsp;';
+                                    }
+                                     @endphp
+                                   
+                                </div>
+                            @endif
             
               {{-- Alert Sukses --}}
               @if (session('success'))
